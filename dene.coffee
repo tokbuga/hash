@@ -42,10 +42,11 @@ for { name: sure_ad, aya: ayetler, index: sure_no, harf }, sure_indeks in kuran
     deger   = harf.toNumber()
     sonuc   = (toplam % deger).toFixed(0) * 1
 
-    kuran[sure_indeks] = { no:sure_no, sonuc, deger, toplam:toplam, harf }
+    kuran[sure_indeks] = { sure:sure_no, sonuc, deger, toplam, harfler:harf }
 
 
 
+console.table ISLEM: "Toplam değerin Değer'e modunun alınması"
 console.table kuran
 console.log kuran
 
