@@ -1,0 +1,176 @@
+[
+	{
+		"sayi": 286,
+		"anahtar": 8,
+		"ayetler": 6,
+		"d": "1 30 31"
+	},
+	{
+		"sayi": 200,
+		"anahtar": 8,
+		"ayetler": 5,
+		"d": "1 30 31"
+	},
+	{
+		"sayi": 206,
+		"anahtar": 5,
+		"ayetler": 3,
+		"d": "1 30 31 15"
+	},
+	{
+		"sayi": 109,
+		"anahtar": 6,
+		"ayetler": 8,
+		"d": "1 30 11"
+	},
+	{
+		"sayi": 123,
+		"anahtar": 6,
+		"ayetler": 5,
+		"d": "1 30 11"
+	},
+	{
+		"sayi": 111,
+		"anahtar": 6,
+		"ayetler": 8,
+		"d": "1 30 11"
+	},
+	{
+		"sayi": 43,
+		"anahtar": 1,
+		"ayetler": 2,
+		"d": "1 30 31 11"
+	},
+	{
+		"sayi": 52,
+		"anahtar": 6,
+		"ayetler": 4,
+		"d": "1 30 11"
+	},
+	{
+		"sayi": 99,
+		"anahtar": 6,
+		"ayetler": 7,
+		"d": "1 30 11"
+	},
+	{
+		"sayi": 98,
+		"anahtar": 6,
+		"ayetler": 5,
+		"d": "29 33 36 19 15"
+	},
+	{
+		"sayi": 135,
+		"anahtar": 5,
+		"ayetler": 3,
+		"d": "17 33"
+	},
+	{
+		"sayi": 227,
+		"anahtar": 7,
+		"ayetler": 8,
+		"d": "17 13 31"
+	},
+	{
+		"sayi": 93,
+		"anahtar": 3,
+		"ayetler": 4,
+		"d": "17 13"
+	},
+	{
+		"sayi": 88,
+		"anahtar": 7,
+		"ayetler": 3,
+		"d": "17 13 31"
+	},
+	{
+		"sayi": 69,
+		"anahtar": 8,
+		"ayetler": 8,
+		"d": "1 30 31"
+	},
+	{
+		"sayi": 60,
+		"anahtar": 8,
+		"ayetler": 6,
+		"d": "1 30 31"
+	},
+	{
+		"sayi": 34,
+		"anahtar": 8,
+		"ayetler": 3,
+		"d": "1 30 31"
+	},
+	{
+		"sayi": 30,
+		"anahtar": 8,
+		"ayetler": 9,
+		"d": "1 30 31"
+	},
+	{
+		"sayi": 83,
+		"anahtar": 4,
+		"ayetler": 5,
+		"d": "36 13"
+	},
+	{
+		"sayi": 88,
+		"anahtar": 6,
+		"ayetler": 7,
+		"d": "15"
+	},
+	{
+		"sayi": 85,
+		"anahtar": 2,
+		"ayetler": 5,
+		"d": "7 31"
+	},
+	{
+		"sayi": 54,
+		"anahtar": 2,
+		"ayetler": 6,
+		"d": "7 31"
+	},
+	{
+		"sayi": 53,
+		"anahtar": 2,
+		"ayetler": 5,
+		"d": "7 31"
+	},
+	{
+		"sayi": 89,
+		"anahtar": 2,
+		"ayetler": 1,
+		"d": "7 31"
+	},
+	{
+		"sayi": 59,
+		"anahtar": 2,
+		"ayetler": 3,
+		"d": "7 31"
+	},
+	{
+		"sayi": 37,
+		"anahtar": 2,
+		"ayetler": 7,
+		"d": "7 31"
+	},
+	{
+		"sayi": 35,
+		"anahtar": 2,
+		"ayetler": 6,
+		"d": "7 31"
+	},
+	{
+		"sayi": 45,
+		"anahtar": 1,
+		"ayetler": 6,
+		"d": "28"
+	},
+	{
+		"sayi": 52,
+		"anahtar": 5,
+		"ayetler": 5,
+		"d": "32"
+	}
+]
