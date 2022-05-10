@@ -1,0 +1,205 @@
+[
+	{
+		"sure": "2",
+		"sonuc": 5,
+		"deger": 9,
+		"toplam": 515106,
+		"harf": "الم"
+	},
+	{
+		"sure": "3",
+		"sonuc": 5,
+		"deger": 1,
+		"toplam": 296515,
+		"harf": "الم"
+	},
+	{
+		"sure": "7",
+		"sonuc": 1,
+		"deger": 8,
+		"toplam": 279710,
+		"harf": "المص"
+	},
+	{
+		"sure": "10",
+		"sonuc": 3,
+		"deger": 1,
+		"toplam": 150643,
+		"harf": "الر"
+	},
+	{
+		"sure": "11",
+		"sonuc": 3,
+		"deger": 4,
+		"toplam": 152716,
+		"harf": "الر"
+	},
+	{
+		"sure": "12",
+		"sonuc": 3,
+		"deger": 4,
+		"toplam": 139963,
+		"harf": "الر"
+	},
+	{
+		"sure": "13",
+		"sonuc": 6,
+		"deger": 4,
+		"toplam": 68791,
+		"harf": "المر"
+	},
+	{
+		"sure": "14",
+		"sonuc": 3,
+		"deger": 7,
+		"toplam": 68398,
+		"harf": "الر"
+	},
+	{
+		"sure": "15",
+		"sonuc": 3,
+		"deger": 8,
+		"toplam": 56924,
+		"harf": "الر"
+	},
+	{
+		"sure": "19",
+		"sonuc": 1,
+		"deger": 8,
+		"toplam": 74051,
+		"harf": "كهيعص"
+	},
+	{
+		"sure": "20",
+		"sonuc": 3,
+		"deger": 8,
+		"toplam": 104183,
+		"harf": "طه"
+	},
+	{
+		"sure": "26",
+		"sonuc": 4,
+		"deger": 2,
+		"toplam": 112835,
+		"harf": "طسم"
+	},
+	{
+		"sure": "27",
+		"sonuc": 1,
+		"deger": 1,
+		"toplam": 93529,
+		"harf": "طس"
+	},
+	{
+		"sure": "28",
+		"sonuc": 4,
+		"deger": 2,
+		"toplam": 117893,
+		"harf": "طسم"
+	},
+	{
+		"sure": "29",
+		"sonuc": 5,
+		"deger": 7,
+		"toplam": 85768,
+		"harf": "الم"
+	},
+	{
+		"sure": "30",
+		"sonuc": 5,
+		"deger": 2,
+		"toplam": 69878,
+		"harf": "الم"
+	},
+	{
+		"sure": "31",
+		"sonuc": 5,
+		"deger": 4,
+		"toplam": 42547,
+		"harf": "الم"
+	},
+	{
+		"sure": "32",
+		"sonuc": 5,
+		"deger": 2,
+		"toplam": 30881,
+		"harf": "الم"
+	},
+	{
+		"sure": "36",
+		"sonuc": 2,
+		"deger": 7,
+		"toplam": 61864,
+		"harf": "يس"
+	},
+	{
+		"sure": "38",
+		"sonuc": 5,
+		"deger": 2,
+		"toplam": 55550,
+		"harf": "ص"
+	},
+	{
+		"sure": "40",
+		"sonuc": 9,
+		"deger": 6,
+		"toplam": 98907,
+		"harf": "حم"
+	},
+	{
+		"sure": "41",
+		"sonuc": 9,
+		"deger": 4,
+		"toplam": 65812,
+		"harf": "حم"
+	},
+	{
+		"sure": "42",
+		"sonuc": 9,
+		"deger": 2,
+		"toplam": 70400,
+		"harf": "حم"
+	},
+	{
+		"sure": "43",
+		"sonuc": 9,
+		"deger": 3,
+		"toplam": 71292,
+		"harf": "حم"
+	},
+	{
+		"sure": "44",
+		"sonuc": 9,
+		"deger": 4,
+		"toplam": 29488,
+		"harf": "حم"
+	},
+	{
+		"sure": "45",
+		"sonuc": 9,
+		"deger": 2,
+		"toplam": 40961,
+		"harf": "حم"
+	},
+	{
+		"sure": "46",
+		"sonuc": 9,
+		"deger": 1,
+		"toplam": 51742,
+		"harf": "حم"
+	},
+	{
+		"sure": "50",
+		"sonuc": 9,
+		"deger": 4,
+		"toplam": 29065,
+		"harf": "ق"
+	},
+	{
+		"sure": "68",
+		"sonuc": 4,
+		"deger": 6,
+		"toplam": 25575,
+		"harf": "ن"
+	}
+]

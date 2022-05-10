@@ -20,48 +20,29 @@ Array.prototype.toNumber    = ->
 String.prototype.toNumber   = ->
     metin = this
         .toString().trim()
-        .replace(/s+/, "")
         .split( "" )
         .map( (c) -> remap[c] or c )
-        .filter( (d) -> d.charCodeAt(0) > 1574 )
         .join( "" )
+        .replace(/s+/, "")
 
     unless metin.length-1
         metin = metin[remap] or metin
-        deger = metin.charCodeAt(0) - 1574
+        deger = metin.charCodeAt(0) - 1575
         return deger
 
     return metin.split("").toNumber()
 
 
-tekles = (deger) ->
-    toplam = 0
-    for k in deger.toString().split("")
-        toplam += (k * 1)
-    
-    if toplam.toString().length > 1
-        return tekles toplam
-
-    return toplam
-
 for { name: sure_ad, aya: ayetler, index: sure_no, harf }, sure_indeks in kuran
-
-    a = ""
 
     for { index: ayet_no, text: metin }, ayet_indeks in ayetler
         ayetler[ayet_indeks] = metin.toNumber()
-        a += ""+ metin.split("").map((c) -> c.toNumber()).join("")
-    
-    c = harf.split("").map((c) -> c.toNumber()).join("")
-
-
-    deger = tekles a
-    sonuc = tekles c
     
     toplam  = ayetler.toNumber()
+    deger   = harf.toNumber()
+    sonuc   = (toplam % deger).toFixed(0) * 1
 
-
-    kuran[sure_indeks] = { sure:sure_no, sonuc, deger, toplam, harf }
+    kuran[sure_indeks] = { sure:sure_no, sonuc, deger, toplam, harfler:harf }
 
 
 
