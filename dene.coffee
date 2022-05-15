@@ -46,11 +46,11 @@ chars = {
     '1610': { char: 'ي', s1: 10, s2: 28, s3: 27, s4: 0, s5: 1 }
 }
 
+console.table chars
+
 String.prototype.toNumber   = (k) ->
     metin = @toString().trim()
-    unless metin.split(" ").length-1
-        return chars[metin.charCodeAt(0)]["s#{k}"]
-    return metin.split(" ").toNumber("s#{k}")
+    chars[metin.charCodeAt(0)]["s#{k}"]
 
 
 Number.prototype.b = (N) ->
@@ -68,14 +68,15 @@ for { name: sure_ad, aya: ayetler, index: sure_no, harf }, sure_indeks in kuran
     s5a = 0; s5c = 0 
 
     for { index: ayet_no, text: metin }, ayet_indeks in ayetler
-        metin.split(" ").map((c) -> 
+        metin.replace(/\s+/gi, "").trim().split("").map((c) -> 
             s1a += c.toNumber(1)
             s2a += c.toNumber(2)
             s3a += c.toNumber(3)
             s4a += c.toNumber(4)
             s5a += c.toNumber(5)
         ) 
-    harf.split(" ").map((d) -> 
+
+    harf.split("").map((d) -> 
         s1c += d.toNumber(1)
         s2c += d.toNumber(2)
         s3c += d.toNumber(3)
@@ -100,7 +101,7 @@ for { name: sure_ad, aya: ayetler, index: sure_no, harf }, sure_indeks in kuran
 
 
 
-console.table ISLEM: "Div and mod for key aganist to sura / splitted with spaces"
+console.table ISLEM: "Div and mod for key aganist to sura / spaces removed"
 console.table kuran
 
 
