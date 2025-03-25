@@ -6,229 +6,165 @@
         "nefetari 💞 özgür"
         <script>
             console.log("nefetari 💞 özgür")
+// Arapça harflerin Ebced değerleri
+const ebcedValues = {
+    'ا': 1, 'ب': 2, 'ج': 3, 'د': 4, 'ه': 5, 'و': 6, 'ز': 7, 'ح': 8, 'ط': 9, 'ي': 10,
+    'ك': 20, 'ل': 30, 'م': 40, 'ن': 50, 'س': 60, 'ع': 70, 'ف': 80, 'ص': 90, 'ق': 100,
+    'ر': 200, 'ش': 300, 'ت': 400, 'ث': 500, 'خ': 600, 'ذ': 700, 'ض': 800, 'ظ': 900, 'غ': 1000
+};
 
-            const checksumLengths = {
-                "bakara": 3,      // Elif-Lam-Mim
-                "al-i imran": 3,  // Elif-Lam-Mim
-                "araf": 4,        // Elif-Lam-Mim-Sad
-                "yunus": 3,       // Elif-Lam-Ra
-                "hud": 3,         // Elif-Lam-Ra
-                "yusuf": 3,       // Elif-Lam-Ra
-                "rad": 4,         // Elif-Lam-Mim-Ra
-                "ibrahim": 3,     // Elif-Lam-Ra
-                "hicr": 3,        // Elif-Lam-Ra
-                "meryem": 5,      // Kaf-Ha-Ya-Ayn-Sad
-                "ta-ha": 2,       // Ta-Ha
-                "suara": 3,       // Ta-Sin-Mim
-                "neml": 2,        // Ta-Sin
-                "kasas": 3,       // Ta-Sin-Mim
-                "ankebut": 3,     // Elif-Lam-Mim
-                "rum": 3,         // Elif-Lam-Mim
-                "lokman": 3,      // Elif-Lam-Mim
-                "secde": 3,       // Elif-Lam-Mim
-                "ya-sin": 2,      // Ya-Sin
-                "sad": 1,         // Sad
-                "fussilet": 2,    // Ha-Mim
-                "sura": 5,        // Kaf-Ha-Ya-Ayn-Sad
-                "zuhruf": 2,      // Ha-Mim
-                "duhan": 2,       // Ha-Mim
-                "casiye": 2,      // Ha-Mim
-                "ahkaf": 2,       // Ha-Mim
-                "kaf": 1,         // Kaf
-                "kalem": 2,       // Nun
-                "muzzemmil": 2    // Kaf-Lam
+// Arapça harflerin alfabelerindeki sıralı değerleri
+const arabicAlphabetOrder = {
+    'ا': 1, 'ب': 2, 'ج': 3, 'د': 4, 'ه': 5, 'و': 6, 'ز': 7, 'ح': 8, 'ط': 9, 'ي': 10,
+    'ك': 11, 'ل': 12, 'م': 13, 'ن': 14, 'س': 15, 'ع': 16, 'ف': 17, 'ص': 18, 'ق': 19,
+    'ر': 20, 'ش': 21, 'ت': 22, 'ث': 23, 'خ': 24, 'ذ': 25, 'ض': 26, 'ظ': 27, 'غ': 28
+};
+
+// Ebced değer hesaplama
+function calculateEbcedValue(text) {
+    let total = 0;
+    for (let i = 0; i < text.length; i++) {
+        const char = text[i];
+        if (ebcedValues[char]) {
+            total += ebcedValues[char];
+        }
+    }
+    return total;
+}
+
+// Alfabetik sıra değer hesaplama
+function calculateAlphabeticalValue(text) {
+    let total = 0;
+    for (let i = 0; i < text.length; i++) {
+        const char = text[i];
+        if (arabicAlphabetOrder[char]) {
+            total += arabicAlphabetOrder[char];
+        }
+    }
+    return total;
+}
+
+// Arapça metni temizleme fonksiyonu
+function cleanArabicText(text) {
+    return text
+        .replace(/[\u064B-\u065F\u0610-\u061A\u06D6-\u06DC\u06DF-\u06E8\u06EA-\u06EF]/g, '') // Harekeleri kaldır
+        .replace(/[\u200B-\u200F\u202A-\u202E]/g, '') // Görünmez karakterleri kaldır
+        .replace(/[^\u0621-\u063A\u0641-\u064A\s]/g, '') // Sadece Arapça harfler ve boşluklar kalsın
+        .replace(/\s+/g, ' ') // Fazla boşlukları tek boşluğa indir
+        .trim();
+}
+
+// Metni checksumPart ve hashPart olarak ayırma
+function splitTextForHash(cleanedText, suraName) {
+    const checksumLength = checksumLengths[suraName] || 0;
+    let charCount = 0;
+    let checksumPart = '';
+    let hashPart = '';
+    let isChecksumPart = true;
+
+    for (let i = 0; i < cleanedText.length; i++) {
+        const char = cleanedText[i];
+        if (char === ' ') {
+            if (isChecksumPart) {
+                checksumPart += char;
+            } else {
+                hashPart += char;
+            }
+            continue;
+        }
+
+        charCount++;
+        if (charCount > checksumLength) {
+            isChecksumPart = false;
+        }
+
+        if (isChecksumPart) {
+            checksumPart += char;
+        } else {
+            hashPart += char;
+        }
+    }
+
+    return {
+        checksumPart: checksumPart.trim(),
+        hashPart: hashPart.trim()
+    };
+}
+
+// ChecksumLengths objesi
+const checksumLengths = {
+    "bakara": 3,
+    "al-i imran": 3,
+    "araf": 4,
+    "yunus": 3,
+    "hud": 3,
+    "yusuf": 3,
+    "rad": 4,
+    "ibrahim": 3,
+    "hicr": 3,
+    "meryem": 5,
+    "ta-ha": 2,
+    "suara": 3,
+    "neml": 2,
+    "kasas": 3,
+    "ankebut": 3,
+    "rum": 3,
+    "lokman": 3,
+    "secde": 3,
+    "ya-sin": 2,
+    "sad": 1,
+    "fussilet": 2,
+    "sura": 5,
+    "zuhruf": 2,
+    "duhan": 2,
+    "casiye": 2,
+    "ahkaf": 2,
+    "kaf": 1,
+    "kalem": 2,
+    "muzzemmil": 2
+};
+
+// 6 sûreyi işleyen fonksiyon
+async function processSuras() {
+    const suraNames = ["sura", "fussilet", "casiye", "duhan", "ahkaf", "mumin"];
+    const results = [];
+
+    for (const suraName of suraNames) {
+        try {
+            // 1. Fetch ile metni al
+            const response = await fetch(`https://tokbuga.github.io/hash/${suraName}.txt`);
+            if (!response.ok) throw new Error(`Failed to fetch ${suraName}.txt`);
+
+            // 2. Text'e dönüştür
+            const text = await response.text();
+
+            // 3. Temizle
+            const cleanedText = cleanArabicText(text);
+
+            // 4. Parçalara ayır
+            const { checksumPart, hashPart } = splitTextForHash(cleanedText, suraName);
+
+            // 5. Değerleri hesapla ve diziye ekle
+            const suraResult = {
+                name: suraName,
+                ebcedChecksum: calculateEbcedValue(checksumPart),
+                ebcedHash: calculateEbcedValue(hashPart),
+                alphabeticalChecksum: calculateAlphabeticalValue(checksumPart),
+                alphabeticalHash: calculateAlphabeticalValue(hashPart)
             };
 
-            // Ebced değerleri için bir harita
-            const ebcedMap = {
-                'ا': 1, 'ب': 2, 'ج': 3, 'د': 4, 'ه': 5, 'و': 6, 'ز': 7, 'ح': 8, 'ط': 9,
-                'ي': 10, 'ك': 20, 'ل': 30, 'م': 40, 'ن': 50, 'س': 60, 'ع': 70, 'ف': 80, 'ص': 90,
-                'ق': 100, 'ر': 200, 'ش': 300, 'ت': 400, 'ث': 500, 'خ': 600, 'ذ': 700, 'ض': 800,
-                'ظ': 900, 'غ': 1000
-            };
+            results.push(suraResult);
+        } catch (error) {
+            console.error(`Error processing ${suraName}:`, error);
+        }
+    }
 
-            // Metni (harf veya kelime) Ebced değerine dönüştüren fonksiyon
-            function calculateEbcedValue(text) {
-                let total = 0;
-                
-                // Metni harf harf döngüyle işle
-                for (let i = 0; i < text.length; i++) {
-                    const char = text[i];
-                    // Harf Ebced haritasına varsa değerini al, yoksa 0
-                    const value = ebcedMap[char] || 0;
-                    total += value;
-                }
-                
-                return total;
-            }
+    // Sonuçları konsola yazdır
+    console.log(JSON.stringify(results, null, 2));
+}
 
-            // Arapça metni temizleyen fonksiyon
-            function cleanArabicText(text) {
-                // Harekeleri ve sembolleri tanımlayan bir regex
-                // \u064B-\u065F: Harekeler (fetha, damme, kesra, vb.)
-                // \u06DD: ۞ (rubu' işareti)
-                // \u06DE-\u06FF: Diğer gereksiz semboller
-                const unwantedChars = /[\u064B-\u065F\u06DD\u06DE-\u06FF]/g;
-                
-                // Harekeleri ve sembolleri kaldır
-                let cleanedText = text.replace(unwantedChars, '');
-                
-                // Gereksiz boşlukları temizle, ama kelimeler arasındaki boşlukları koru
-                cleanedText = cleanedText.replace(/\s+|\./g, ' ').trim();
-                
-                return cleanedText;
-            }
-
-            // Metni iki parçaya ayıran fonksiyon (Bismillah’ı atlayarak)
-            function splitTextForHash(cleanedText, suraName) {
-                // Bismillah’ı atlamak için metnin başını kontrol et
-                const bismillah = "بسم الله الرحمن الرحيم";
-                let textToProcess = cleanedText;
-                let bismillahPart = '';
-
-                if (cleanedText.startsWith(bismillah)) {
-                    bismillahPart = cleanedText.substring(0, bismillah.length);
-                    textToProcess = cleanedText.substring(bismillah.length).trim();
-                    throw 1;
-                }
-
-                // Checksum harf sayısını al
-                const checksumLength = checksumLengths[suraName] || 0;
-                
-                let charCount = 0;
-                let checksumPart = '';
-                let hashPart = '';
-                let isChecksumPart = true;
-
-                for (let i = 0; i < textToProcess.length; i++) {
-                    const char = textToProcess[i];
-                    if (char === ' ') {
-                        if (isChecksumPart) {
-                            checksumPart += char;
-                        } else {
-                            hashPart += char;
-                        }
-                        continue;
-                    }
-
-                    charCount++;
-                    if (charCount > checksumLength) {
-                        isChecksumPart = false;
-                    }
-
-                    if (isChecksumPart) {
-                        checksumPart += char;
-                    } else {
-                        hashPart += char;
-                    }
-                }
-
-                return {
-                    bismillahPart: bismillahPart,
-                    checksumPart: checksumPart.trim(),
-                    hashPart: hashPart.trim()
-                };
-            }
-
-
-            fetch("sura.txt").then(r => r.text()).then(rawText => {
-                
-                console.group("şura")
-                console.log({rawText})
-                const cleanedText = cleanArabicText(rawText);
-                console.log("Temizlenmiş Metin:", {cleanedText});
-
-                const { bismillahPart, checksumPart, hashPart } = splitTextForHash(cleanedText, "sura");
-
-                console.log("Bismillah Kısmı:", bismillahPart);
-                console.log("Checksum Kısmı:", checksumPart);
-                console.log("Hash Kısmı:", {hashPart});
-                console.warn("Checksum Kısmı Ebced Değeri:", calculateEbcedValue(checksumPart)); // "حم عسق" (5 harf: Kaf-Ha-Ya-Ayn-Sad)
-                console.warn("Hash Kısmı Ebced Değeri:", calculateEbcedValue(hashPart));
-                console.groupEnd("şura")
-
-            })
-            fetch("casiye.txt").then(r => r.text()).then(rawText => {
-
-                console.group("Câsiye")
-                console.log({rawText})                
-                const cleanedText = cleanArabicText(rawText);
-                console.log("Temizlenmiş Metin:", {cleanedText});
-
-                const { bismillahPart, checksumPart, hashPart } = splitTextForHash(cleanedText, "casiye");
-
-                console.log("Bismillah Kısmı:", bismillahPart);
-                console.log("Checksum Kısmı:", checksumPart);
-                console.log("Hash Kısmı:", {hashPart});
-                console.warn("Checksum Kısmı Ebced Değeri:", calculateEbcedValue(checksumPart)); // "حم عسق" (5 harf: Kaf-Ha-Ya-Ayn-Sad)
-                console.warn("Hash Kısmı Ebced Değeri:", calculateEbcedValue(hashPart));
-                console.groupEnd("Câsiye")
-            })
-
-            fetch("fussilet.txt").then(r => r.text()).then(rawText => {
-                console.group("fussilet")
-                console.log({rawText})                
-                const cleanedText = cleanArabicText(rawText);
-                console.log("Temizlenmiş Metin:", {cleanedText});
-
-                const { bismillahPart, checksumPart, hashPart } = splitTextForHash(cleanedText, "fussilet");
-
-                console.log("Bismillah Kısmı:", bismillahPart);
-                console.log("Checksum Kısmı:", checksumPart);
-                console.log("Hash Kısmı:", {hashPart});
-                console.warn("Checksum Kısmı Ebced Değeri:", calculateEbcedValue(checksumPart)); // "حم عسق" (5 harf: Kaf-Ha-Ya-Ayn-Sad)
-                console.warn("Hash Kısmı Ebced Değeri:", calculateEbcedValue(hashPart));
-                console.groupEnd("fussilet")
-            })
-
-            fetch("duhan.txt").then(r => r.text()).then(rawText => {
-                console.group("duhan")
-                console.log({rawText})                
-                const cleanedText = cleanArabicText(rawText);
-                console.log("Temizlenmiş Metin:", {cleanedText});
-
-                const { bismillahPart, checksumPart, hashPart } = splitTextForHash(cleanedText, "duhan");
-
-                console.log("Bismillah Kısmı:", bismillahPart);
-                console.log("Checksum Kısmı:", checksumPart);
-                console.log("Hash Kısmı:", {hashPart});
-                console.warn("Checksum Kısmı Ebced Değeri:", calculateEbcedValue(checksumPart)); // "حم عسق" (5 harf: Kaf-Ha-Ya-Ayn-Sad)
-                console.warn("Hash Kısmı Ebced Değeri:", calculateEbcedValue(hashPart));
-                console.groupEnd("duhan")
-            })
-
-            fetch("mumin.txt").then(r => r.text()).then(rawText => {
-                console.group("mumin")
-                console.log({rawText})                
-                const cleanedText = cleanArabicText(rawText);
-                console.log("Temizlenmiş Metin:", {cleanedText});
-
-                const { bismillahPart, checksumPart, hashPart } = splitTextForHash(cleanedText, "mumin");
-
-                console.log("Bismillah Kısmı:", bismillahPart);
-                console.log("Checksum Kısmı:", checksumPart);
-                console.log("Hash Kısmı:", {hashPart});
-                console.warn("Checksum Kısmı Ebced Değeri:", calculateEbcedValue(checksumPart)); // "حم عسق" (5 harf: Kaf-Ha-Ya-Ayn-Sad)
-                console.warn("Hash Kısmı Ebced Değeri:", calculateEbcedValue(hashPart));
-                console.groupEnd("mumin")
-            })
-
-            fetch("ahkaf.txt").then(r => r.text()).then(rawText => {
-                console.group("ahkaf")
-                console.log({rawText})                
-                const cleanedText = cleanArabicText(rawText);
-                console.log("Temizlenmiş Metin:", {cleanedText});
-
-                const { bismillahPart, checksumPart, hashPart } = splitTextForHash(cleanedText, "ahkaf");
-
-                console.log("Bismillah Kısmı:", bismillahPart);
-                console.log("Checksum Kısmı:", checksumPart);
-                console.log("Hash Kısmı:", {hashPart});
-                console.warn("Checksum Kısmı Ebced Değeri:", calculateEbcedValue(checksumPart)); // "حم عسق" (5 harf: Kaf-Ha-Ya-Ayn-Sad)
-                console.warn("Hash Kısmı Ebced Değeri:", calculateEbcedValue(hashPart));
-                console.groupEnd("ahkaf")
-            })
-
+// Fonksiyonu çalıştır
+processSuras();
         </script>
     </body>
 </html>
