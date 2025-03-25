@@ -28,7 +28,7 @@
                 "Secde": 3,     // Elif-Lam-Mim
                 "Yâ-Sîn": 2,    // Ya-Sin
                 "Sâd": 1,       // Sad
-                "Fussilet": 3,  // Ha-Mim
+                "fussilet": 3,  // Ha-Mim
                 "sura": 5,      // Kaf-Ha-Ya-Ayn-Sad
                 "Zuhruf": 2,    // Ha-Mim
                 "Duhân": 2,     // Ha-Mim
@@ -146,22 +146,38 @@
                 console.warn("Hash Kısmı Ebced Değeri:", calculateEbcedValue(hashPart));
                 console.groupEnd("şura")
 
-                fetch("casiye.txt").then(r => r.text()).then(rawText => {
-    
-                    console.group("Câsiye")
-                    console.log({rawText})                
-                    const cleanedText = cleanArabicText(rawText);
-                    console.log("Temizlenmiş Metin:", {cleanedText});
-    
-                    const { bismillahPart, checksumPart, hashPart } = splitTextForHash(cleanedText, "casiye");
-    
-                    console.log("Bismillah Kısmı:", bismillahPart);
-                    console.log("Checksum Kısmı:", checksumPart);
-                    console.log("Hash Kısmı:", {hashPart});
-                    console.warn("Checksum Kısmı Ebced Değeri:", calculateEbcedValue(checksumPart)); // "حم عسق" (5 harf: Kaf-Ha-Ya-Ayn-Sad)
-                    console.warn("Hash Kısmı Ebced Değeri:", calculateEbcedValue(hashPart));
-                    console.groupEnd("Câsiye")
-                })
+            })
+            fetch("casiye.txt").then(r => r.text()).then(rawText => {
+
+                console.group("Câsiye")
+                console.log({rawText})                
+                const cleanedText = cleanArabicText(rawText);
+                console.log("Temizlenmiş Metin:", {cleanedText});
+
+                const { bismillahPart, checksumPart, hashPart } = splitTextForHash(cleanedText, "casiye");
+
+                console.log("Bismillah Kısmı:", bismillahPart);
+                console.log("Checksum Kısmı:", checksumPart);
+                console.log("Hash Kısmı:", {hashPart});
+                console.warn("Checksum Kısmı Ebced Değeri:", calculateEbcedValue(checksumPart)); // "حم عسق" (5 harf: Kaf-Ha-Ya-Ayn-Sad)
+                console.warn("Hash Kısmı Ebced Değeri:", calculateEbcedValue(hashPart));
+                console.groupEnd("Câsiye")
+            })
+
+            fetch("fussilet.txt").then(r => r.text()).then(rawText => {
+                console.group("fussilet")
+                console.log({rawText})                
+                const cleanedText = cleanArabicText(rawText);
+                console.log("Temizlenmiş Metin:", {cleanedText});
+
+                const { bismillahPart, checksumPart, hashPart } = splitTextForHash(cleanedText, "fussilet");
+
+                console.log("Bismillah Kısmı:", bismillahPart);
+                console.log("Checksum Kısmı:", checksumPart);
+                console.log("Hash Kısmı:", {hashPart});
+                console.warn("Checksum Kısmı Ebced Değeri:", calculateEbcedValue(checksumPart)); // "حم عسق" (5 harf: Kaf-Ha-Ya-Ayn-Sad)
+                console.warn("Hash Kısmı Ebced Değeri:", calculateEbcedValue(hashPart));
+                console.groupEnd("fussilet")
             })
 
         </script>
