@@ -74,7 +74,7 @@
                 let cleanedText = text.replace(unwantedChars, '');
                 
                 // Gereksiz boşlukları temizle, ama kelimeler arasındaki boşlukları koru
-                cleanedText = cleanedText.replace(/\s+/g, ' ').trim();
+                cleanedText = cleanedText.replace(/\s+|\./g, ' ').trim();
                 
                 return cleanedText;
             }
