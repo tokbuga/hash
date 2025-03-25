@@ -6,7 +6,7 @@
         "nefetari 💞 özgür"
         <script>
             console.log("nefetari 💞 özgür")
-            
+
             // Ebced değerleri için bir harita
             const ebcedMap = {
                 'ا': 1, 'ب': 2, 'ج': 3, 'د': 4, 'ه': 5, 'و': 6, 'ز': 7, 'ح': 8, 'ط': 9,
@@ -29,6 +29,28 @@
                 
                 return total;
             }
+
+            // Arapça metni temizleyen fonksiyon
+            function cleanArabicText(text) {
+                // Harekeleri ve sembolleri tanımlayan bir regex
+                // \u064B-\u065F: Harekeler (fetha, damme, kesra, vb.)
+                // \u06DD: ۞ (rubu' işareti)
+                // \u06DE-\u06FF: Diğer gereksiz semboller
+                const unwantedChars = /[\u064B-\u065F\u06DD\u06DE-\u06FF]/g;
+                
+                // Harekeleri ve sembolleri kaldır
+                let cleanedText = text.replace(unwantedChars, '');
+                
+                // Gereksiz boşlukları temizle, ama kelimeler arasındaki boşlukları koru
+                cleanedText = cleanedText.replace(/\s+/g, ' ').trim();
+                
+                return cleanedText;
+            }
+
+            // Test: Şura Suresi’nin ilk birkaç ayeti
+            const rawText = "حم عسق كَذَٰلِكَ يُوحِىٓ إِلَيْكَ وَإِلَى ٱلَّذِينَ مِن قَبْلِكَ ٱللَّهُ ٱلْعَزِيزُ ٱلْحَكِيمُ ۞ لَهُ مَا فِى ٱلسَّمَٰوَٰتِ";
+            const cleanedText = cleanArabicText(rawText);
+            console.log("Temizlenmiş Metin:", cleanedText);
 
             // Test: Şura Suresi’nin ilk 10 ayetinin ilk kelimeleri
             const words = [
