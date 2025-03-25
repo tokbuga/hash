@@ -213,6 +213,22 @@
                 console.groupEnd("mumin")
             })
 
+            fetch("ahkaf.txt").then(r => r.text()).then(rawText => {
+                console.group("ahkaf")
+                console.log({rawText})                
+                const cleanedText = cleanArabicText(rawText);
+                console.log("Temizlenmiş Metin:", {cleanedText});
+
+                const { bismillahPart, checksumPart, hashPart } = splitTextForHash(cleanedText, "ahkaf");
+
+                console.log("Bismillah Kısmı:", bismillahPart);
+                console.log("Checksum Kısmı:", checksumPart);
+                console.log("Hash Kısmı:", {hashPart});
+                console.warn("Checksum Kısmı Ebced Değeri:", calculateEbcedValue(checksumPart)); // "حم عسق" (5 harf: Kaf-Ha-Ya-Ayn-Sad)
+                console.warn("Hash Kısmı Ebced Değeri:", calculateEbcedValue(hashPart));
+                console.groupEnd("ahkaf")
+            })
+
         </script>
     </body>
 </html>
