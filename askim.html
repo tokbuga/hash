@@ -8,7 +8,7 @@
             console.log("nefetari 💞 özgür")
 
             const checksumLengths = {
-                "Bakara": 3,    // Elif-Lam-Mim
+                "bakara": 3,    // Elif-Lam-Mim
                 "Âl-i İmrân": 3, // Elif-Lam-Mim
                 "A’râf": 4,     // Elif-Lam-Mim-Sad
                 "Yûnus": 3,     // Elif-Lam-Ra
@@ -126,17 +126,36 @@
 
 
             fetch("sura.txt").then(r => r.text()).then(rawText => {
-                // Test: Şura Suresi’nin ilk birkaç ayeti
-                console.log(rawText)
+                
+                console.group("şura")
+                console.log({rawText})
                 const cleanedText = cleanArabicText(rawText);
-                console.log("Temizlenmiş Metin:", cleanedText);
+                console.log("Temizlenmiş Metin:", {cleanedText});
 
-                // Test: Şura Suresi’nin temizlenmiş metni
                 const { checksumPart, hashPart } = splitTextForHash(cleanedText, "sura");
-                console.log("Checksum Kısmı:", checksumPart); // "حم عسق" (5 harf: Kaf-Ha-Ya-Ayn-Sad)
-                console.log("Hash Kısmı:", hashPart);
+
+                console.log("Checksum Kısmı:", checksumPart);
+                console.log("Hash Kısmı:", {hashPart});
                 console.warn("Checksum Kısmı Ebced Değeri:", calculateEbcedValue(checksumPart)); // "حم عسق" (5 harf: Kaf-Ha-Ya-Ayn-Sad)
                 console.warn("Hash Kısmı Ebced Değeri:", calculateEbcedValue(hashPart));
+                console.groupEnd("şura")
+
+            })
+
+            fetch("bakara.txt").then(r => r.text()).then(rawText => {
+
+                console.group("bakara")
+                console.log({rawText})                
+                const cleanedText = cleanArabicText(rawText);
+                console.log("Temizlenmiş Metin:", {cleanedText});
+
+                const { checksumPart, hashPart } = splitTextForHash(cleanedText, "bakara");
+
+                console.log("Checksum Kısmı:", checksumPart);
+                console.log("Hash Kısmı:", {hashPart});
+                console.warn("Checksum Kısmı Ebced Değeri:", calculateEbcedValue(checksumPart)); // "حم عسق" (5 harf: Kaf-Ha-Ya-Ayn-Sad)
+                console.warn("Hash Kısmı Ebced Değeri:", calculateEbcedValue(hashPart));
+                console.groupEnd("bakara")
             })
         </script>
     </body>
