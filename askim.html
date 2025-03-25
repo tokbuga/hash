@@ -47,10 +47,14 @@
                 return cleanedText;
             }
 
-            // Test: Şura Suresi’nin ilk birkaç ayeti
-            const rawText = "حم عسق كَذَٰلِكَ يُوحِىٓ إِلَيْكَ وَإِلَى ٱلَّذِينَ مِن قَبْلِكَ ٱللَّهُ ٱلْعَزِيزُ ٱلْحَكِيمُ ۞ لَهُ مَا فِى ٱلسَّمَٰوَٰتِ";
-            const cleanedText = cleanArabicText(rawText);
-            console.log("Temizlenmiş Metin:", cleanedText);
+            fetch("sura-01.txt").then(r => r.text()).then(rawText => {
+                // Test: Şura Suresi’nin ilk birkaç ayeti
+                console.log(rawText)
+                const cleanedText = cleanArabicText(rawText);
+                
+                console.log("Temizlenmiş Metin:", cleanedText);
+            })
+
 
             // Test: Şura Suresi’nin ilk 10 ayetinin ilk kelimeleri
             const words = [
