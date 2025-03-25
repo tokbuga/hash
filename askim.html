@@ -79,21 +79,29 @@
                 return cleanedText;
             }
 
-            // Metni iki parçaya ayıran fonksiyon
+            // Metni iki parçaya ayıran fonksiyon (Bismillah’ı atlayarak)
             function splitTextForHash(cleanedText, suraName) {
+                // Bismillah’ı atlamak için metnin başını kontrol et
+                const bismillah = "بسم الله الرحمن الرحيم";
+                let textToProcess = cleanedText;
+                let bismillahPart = '';
+
+                if (cleanedText.startsWith(bismillah)) {
+                    bismillahPart = cleanedText.substring(0, bismillah.length);
+                    textToProcess = cleanedText.substring(bismillah.length).trim();
+                }
+
                 // Checksum harf sayısını al
                 const checksumLength = checksumLengths[suraName] || 0;
                 
-                // Metni harf bazında ayırmak için boşlukları dikkate almadan harfleri sayalım
                 let charCount = 0;
                 let checksumPart = '';
                 let hashPart = '';
                 let isChecksumPart = true;
 
-                for (let i = 0; i < cleanedText.length; i++) {
-                    const char = cleanedText[i];
+                for (let i = 0; i < textToProcess.length; i++) {
+                    const char = textToProcess[i];
                     if (char === ' ') {
-                        // Boşlukları her iki parçada da koru
                         if (isChecksumPart) {
                             checksumPart += char;
                         } else {
@@ -102,15 +110,11 @@
                         continue;
                     }
 
-                    // Harf sayısını artır
                     charCount++;
-                    
-                    // Checksum kısmı dolduysa, kalan metni hash kısmına ekle
                     if (charCount > checksumLength) {
                         isChecksumPart = false;
                     }
 
-                    // Harfi uygun kısma ekle
                     if (isChecksumPart) {
                         checksumPart += char;
                     } else {
@@ -119,6 +123,7 @@
                 }
 
                 return {
+                    bismillahPart: bismillahPart,
                     checksumPart: checksumPart.trim(),
                     hashPart: hashPart.trim()
                 };
@@ -132,8 +137,9 @@
                 const cleanedText = cleanArabicText(rawText);
                 console.log("Temizlenmiş Metin:", {cleanedText});
 
-                const { checksumPart, hashPart } = splitTextForHash(cleanedText, "sura");
+                const { bismillahPart, checksumPart, hashPart } = splitTextForHash(cleanedText, "sura");
 
+                console.log("Bismillah Kısmı:", bismillahPart);
                 console.log("Checksum Kısmı:", checksumPart);
                 console.log("Hash Kısmı:", {hashPart});
                 console.warn("Checksum Kısmı Ebced Değeri:", calculateEbcedValue(checksumPart)); // "حم عسق" (5 harf: Kaf-Ha-Ya-Ayn-Sad)
@@ -147,8 +153,9 @@
                     const cleanedText = cleanArabicText(rawText);
                     console.log("Temizlenmiş Metin:", {cleanedText});
     
-                    const { checksumPart, hashPart } = splitTextForHash(cleanedText, "bakara");
+                    const { bismillahPart, checksumPart, hashPart } = splitTextForHash(cleanedText, "bakara");
     
+                    console.log("Bismillah Kısmı:", bismillahPart);
                     console.log("Checksum Kısmı:", checksumPart);
                     console.log("Hash Kısmı:", {hashPart});
                     console.warn("Checksum Kısmı Ebced Değeri:", calculateEbcedValue(checksumPart)); // "حم عسق" (5 harf: Kaf-Ha-Ya-Ayn-Sad)
