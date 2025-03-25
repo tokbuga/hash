@@ -6,165 +6,167 @@
         "nefetari 💞 özgür"
         <script>
             console.log("nefetari 💞 özgür")
-// Arapça harflerin Ebced değerleri
-const ebcedValues = {
-    'ا': 1, 'ب': 2, 'ج': 3, 'د': 4, 'ه': 5, 'و': 6, 'ز': 7, 'ح': 8, 'ط': 9, 'ي': 10,
-    'ك': 20, 'ل': 30, 'م': 40, 'ن': 50, 'س': 60, 'ع': 70, 'ف': 80, 'ص': 90, 'ق': 100,
-    'ر': 200, 'ش': 300, 'ت': 400, 'ث': 500, 'خ': 600, 'ذ': 700, 'ض': 800, 'ظ': 900, 'غ': 1000
-};
-
-// Arapça harflerin alfabelerindeki sıralı değerleri
-const arabicAlphabetOrder = {
-    'ا': 1, 'ب': 2, 'ج': 3, 'د': 4, 'ه': 5, 'و': 6, 'ز': 7, 'ح': 8, 'ط': 9, 'ي': 10,
-    'ك': 11, 'ل': 12, 'م': 13, 'ن': 14, 'س': 15, 'ع': 16, 'ف': 17, 'ص': 18, 'ق': 19,
-    'ر': 20, 'ش': 21, 'ت': 22, 'ث': 23, 'خ': 24, 'ذ': 25, 'ض': 26, 'ظ': 27, 'غ': 28
-};
-
-// Ebced değer hesaplama
-function calculateEbcedValue(text) {
-    let total = 0;
-    for (let i = 0; i < text.length; i++) {
-        const char = text[i];
-        if (ebcedValues[char]) {
-            total += ebcedValues[char];
-        }
-    }
-    return total;
-}
-
-// Alfabetik sıra değer hesaplama
-function calculateAlphabeticalValue(text) {
-    let total = 0;
-    for (let i = 0; i < text.length; i++) {
-        const char = text[i];
-        if (arabicAlphabetOrder[char]) {
-            total += arabicAlphabetOrder[char];
-        }
-    }
-    return total;
-}
-
-// Arapça metni temizleme fonksiyonu
-function cleanArabicText(text) {
-    return text
-        .replace(/[\u064B-\u065F\u0610-\u061A\u06D6-\u06DC\u06DF-\u06E8\u06EA-\u06EF]/g, '') // Harekeleri kaldır
-        .replace(/[\u200B-\u200F\u202A-\u202E]/g, '') // Görünmez karakterleri kaldır
-        .replace(/[^\u0621-\u063A\u0641-\u064A\s]/g, '') // Sadece Arapça harfler ve boşluklar kalsın
-        .replace(/\s+/g, ' ') // Fazla boşlukları tek boşluğa indir
-        .trim();
-}
-
-// Metni checksumPart ve hashPart olarak ayırma
-function splitTextForHash(cleanedText, suraName) {
-    const checksumLength = checksumLengths[suraName] || 0;
-    let charCount = 0;
-    let checksumPart = '';
-    let hashPart = '';
-    let isChecksumPart = true;
-
-    for (let i = 0; i < cleanedText.length; i++) {
-        const char = cleanedText[i];
-        if (char === ' ') {
-            if (isChecksumPart) {
-                checksumPart += char;
-            } else {
-                hashPart += char;
-            }
-            continue;
-        }
-
-        charCount++;
-        if (charCount > checksumLength) {
-            isChecksumPart = false;
-        }
-
-        if (isChecksumPart) {
-            checksumPart += char;
-        } else {
-            hashPart += char;
-        }
-    }
-
-    return {
-        checksumPart: checksumPart.trim(),
-        hashPart: hashPart.trim()
-    };
-}
-
-// ChecksumLengths objesi
-const checksumLengths = {
-    "bakara": 3,
-    "al-i imran": 3,
-    "araf": 4,
-    "yunus": 3,
-    "hud": 3,
-    "yusuf": 3,
-    "rad": 4,
-    "ibrahim": 3,
-    "hicr": 3,
-    "meryem": 5,
-    "ta-ha": 2,
-    "suara": 3,
-    "neml": 2,
-    "kasas": 3,
-    "ankebut": 3,
-    "rum": 3,
-    "lokman": 3,
-    "secde": 3,
-    "ya-sin": 2,
-    "sad": 1,
-    "fussilet": 2,
-    "sura": 5,
-    "zuhruf": 2,
-    "duhan": 2,
-    "casiye": 2,
-    "ahkaf": 2,
-    "kaf": 1,
-    "kalem": 2,
-    "muzzemmil": 2
-};
-
-// 6 sûreyi işleyen fonksiyon
-async function processSuras() {
-    const suraNames = ["sura", "fussilet", "casiye", "duhan", "ahkaf", "mumin"];
-    const results = [];
-
-    for (const suraName of suraNames) {
-        try {
-            // 1. Fetch ile metni al
-            const response = await fetch(`https://tokbuga.github.io/hash/${suraName}.txt`);
-            if (!response.ok) throw new Error(`Failed to fetch ${suraName}.txt`);
-
-            // 2. Text'e dönüştür
-            const text = await response.text();
-
-            // 3. Temizle
-            const cleanedText = cleanArabicText(text);
-
-            // 4. Parçalara ayır
-            const { checksumPart, hashPart } = splitTextForHash(cleanedText, suraName);
-
-            // 5. Değerleri hesapla ve diziye ekle
-            const suraResult = {
-                name: suraName,
-                ebcedChecksum: calculateEbcedValue(checksumPart),
-                ebcedHash: calculateEbcedValue(hashPart),
-                alphabeticalChecksum: calculateAlphabeticalValue(checksumPart),
-                alphabeticalHash: calculateAlphabeticalValue(hashPart)
+            
+            // Arapça harflerin Ebced değerleri
+            const ebcedValues = {
+                'ا': 1, 'ب': 2, 'ج': 3, 'د': 4, 'ه': 5, 'و': 6, 'ز': 7, 'ح': 8, 'ط': 9, 'ي': 10,
+                'ك': 20, 'ل': 30, 'م': 40, 'ن': 50, 'س': 60, 'ع': 70, 'ف': 80, 'ص': 90, 'ق': 100,
+                'ر': 200, 'ش': 300, 'ت': 400, 'ث': 500, 'خ': 600, 'ذ': 700, 'ض': 800, 'ظ': 900, 'غ': 1000
             };
 
-            results.push(suraResult);
-        } catch (error) {
-            console.error(`Error processing ${suraName}:`, error);
-        }
-    }
+            // Arapça harflerin alfabelerindeki sıralı değerleri
+            const arabicAlphabetOrder = {
+                'ا': 1, 'ب': 2, 'ج': 3, 'د': 4, 'ه': 5, 'و': 6, 'ز': 7, 'ح': 8, 'ط': 9, 'ي': 10,
+                'ك': 11, 'ل': 12, 'م': 13, 'ن': 14, 'س': 15, 'ع': 16, 'ف': 17, 'ص': 18, 'ق': 19,
+                'ر': 20, 'ش': 21, 'ت': 22, 'ث': 23, 'خ': 24, 'ذ': 25, 'ض': 26, 'ظ': 27, 'غ': 28
+            };
 
-    // Sonuçları konsola yazdır
-    console.log(JSON.stringify(results, null, 2));
-}
+            // Ebced değer hesaplama
+            function calculateEbcedValue(text) {
+                let total = 0;
+                for (let i = 0; i < text.length; i++) {
+                    const char = text[i];
+                    if (ebcedValues[char]) {
+                        total += ebcedValues[char];
+                    }
+                }
+                return total;
+            }
 
-// Fonksiyonu çalıştır
-processSuras();
+            // Alfabetik sıra değer hesaplama
+            function calculateAlphabeticalValue(text) {
+                let total = 0;
+                for (let i = 0; i < text.length; i++) {
+                    const char = text[i];
+                    if (arabicAlphabetOrder[char]) {
+                        total += arabicAlphabetOrder[char];
+                    }
+                }
+                return total;
+            }
+
+            // Arapça metni temizleme fonksiyonu
+            function cleanArabicText(text) {
+                return text
+                    .replace(/[\u064B-\u065F\u0610-\u061A\u06D6-\u06DC\u06DF-\u06E8\u06EA-\u06EF]/g, '') // Harekeleri kaldır
+                    .replace(/[\u200B-\u200F\u202A-\u202E]/g, '') // Görünmez karakterleri kaldır
+                    .replace(/[^\u0621-\u063A\u0641-\u064A\s]/g, '') // Sadece Arapça harfler ve boşluklar kalsın
+                    .replace(/\s+/g, ' ') // Fazla boşlukları tek boşluğa indir
+                    .trim();
+            }
+
+            // Metni checksumPart ve hashPart olarak ayırma
+            function splitTextForHash(cleanedText, suraName) {
+                const checksumLength = checksumLengths[suraName] || 0;
+                let charCount = 0;
+                let checksumPart = '';
+                let hashPart = '';
+                let isChecksumPart = true;
+
+                for (let i = 0; i < cleanedText.length; i++) {
+                    const char = cleanedText[i];
+                    if (char === ' ') {
+                        if (isChecksumPart) {
+                            checksumPart += char;
+                        } else {
+                            hashPart += char;
+                        }
+                        continue;
+                    }
+
+                    charCount++;
+                    if (charCount > checksumLength) {
+                        isChecksumPart = false;
+                    }
+
+                    if (isChecksumPart) {
+                        checksumPart += char;
+                    } else {
+                        hashPart += char;
+                    }
+                }
+
+                return {
+                    checksumPart: checksumPart.trim(),
+                    hashPart: hashPart.trim()
+                };
+            }
+
+            // ChecksumLengths objesi
+            const checksumLengths = {
+                "bakara": 3,
+                "al-i imran": 3,
+                "araf": 4,
+                "yunus": 3,
+                "hud": 3,
+                "yusuf": 3,
+                "rad": 4,
+                "ibrahim": 3,
+                "hicr": 3,
+                "meryem": 5,
+                "ta-ha": 2,
+                "suara": 3,
+                "neml": 2,
+                "kasas": 3,
+                "ankebut": 3,
+                "rum": 3,
+                "lokman": 3,
+                "secde": 3,
+                "ya-sin": 2,
+                "sad": 1,
+                "fussilet": 2,
+                "sura": 5,
+                "zuhruf": 2,
+                "duhan": 2,
+                "mumin": 2,
+                "casiye": 2,
+                "ahkaf": 2,
+                "kaf": 1,
+                "kalem": 2,
+                "muzzemmil": 2
+            };
+
+            // 6 sûreyi işleyen fonksiyon
+            async function processSuras() {
+                const suraNames = ["sura", "fussilet", "casiye", "duhan", "ahkaf", "mumin"];
+                const results = [];
+
+                for (const suraName of suraNames) {
+                    try {
+                        // 1. Fetch ile metni al
+                        const response = await fetch(`https://tokbuga.github.io/hash/${suraName}.txt`);
+                        if (!response.ok) throw new Error(`Failed to fetch ${suraName}.txt`);
+
+                        // 2. Text'e dönüştür
+                        const text = await response.text();
+
+                        // 3. Temizle
+                        const cleanedText = cleanArabicText(text);
+
+                        // 4. Parçalara ayır
+                        const { checksumPart, hashPart } = splitTextForHash(cleanedText, suraName);
+
+                        // 5. Değerleri hesapla ve diziye ekle
+                        const suraResult = {
+                            name: suraName,
+                            ebcedChecksum: calculateEbcedValue(checksumPart),
+                            ebcedHash: calculateEbcedValue(hashPart),
+                            alphabeticalChecksum: calculateAlphabeticalValue(checksumPart),
+                            alphabeticalHash: calculateAlphabeticalValue(hashPart)
+                        };
+
+                        results.push(suraResult);
+                    } catch (error) {
+                        console.error(`Error processing ${suraName}:`, error);
+                    }
+                }
+
+                // Sonuçları konsola yazdır
+                console.log(JSON.stringify(results, null, 2));
+            }
+
+            // Fonksiyonu çalıştır
+            processSuras();
         </script>
     </body>
 </html>
