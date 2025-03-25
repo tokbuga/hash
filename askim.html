@@ -7,6 +7,38 @@
         <script>
             console.log("nefetari 💞 özgür")
 
+            const checksumLengths = {
+                "Bakara": 3,    // Elif-Lam-Mim
+                "Âl-i İmrân": 3, // Elif-Lam-Mim
+                "A’râf": 4,     // Elif-Lam-Mim-Sad
+                "Yûnus": 3,     // Elif-Lam-Ra
+                "Hûd": 3,       // Elif-Lam-Ra
+                "Yûsuf": 3,     // Elif-Lam-Ra
+                "Ra’d": 4,      // Elif-Lam-Mim-Ra
+                "İbrâhim": 3,   // Elif-Lam-Ra
+                "Hicr": 3,      // Elif-Lam-Ra
+                "Meryem": 5,    // Kaf-Ha-Ya-Ayn-Sad
+                "Tâ-Hâ": 2,     // Ta-Ha
+                "Şuarâ": 3,     // Ta-Sin-Mim
+                "Neml": 2,      // Ta-Sin
+                "Kasas": 3,     // Ta-Sin-Mim
+                "Ankebût": 3,   // Elif-Lam-Mim
+                "Rûm": 3,       // Elif-Lam-Mim
+                "Lokman": 3,     // Elif-Lam-Mim
+                "Secde": 3,     // Elif-Lam-Mim
+                "Yâ-Sîn": 2,    // Ya-Sin
+                "Sâd": 1,       // Sad
+                "Fussilet": 3,  // Ha-Mim
+                "sura": 5,      // Kaf-Ha-Ya-Ayn-Sad
+                "Zuhruf": 2,    // Ha-Mim
+                "Duhân": 2,     // Ha-Mim
+                "Câsiye": 2,    // Ha-Mim
+                "Ahkâf": 2,     // Ha-Mim
+                "Kaf": 1,       // Kaf
+                "Kalem": 2,     // Nun
+                "Muzzemmil": 2  // Kaf-Lam
+            };
+
             // Ebced değerleri için bir harita
             const ebcedMap = {
                 'ا': 1, 'ب': 2, 'ج': 3, 'د': 4, 'ه': 5, 'و': 6, 'ز': 7, 'ح': 8, 'ط': 9,
@@ -47,49 +79,63 @@
                 return cleanedText;
             }
 
-            fetch("sura-01.txt").then(r => r.text()).then(rawText => {
+            // Metni iki parçaya ayıran fonksiyon
+            function splitTextForHash(cleanedText, suraName) {
+                // Checksum harf sayısını al
+                const checksumLength = checksumLengths[suraName] || 0;
+                
+                // Metni harf bazında ayırmak için boşlukları dikkate almadan harfleri sayalım
+                let charCount = 0;
+                let checksumPart = '';
+                let hashPart = '';
+                let isChecksumPart = true;
+
+                for (let i = 0; i < cleanedText.length; i++) {
+                    const char = cleanedText[i];
+                    if (char === ' ') {
+                        // Boşlukları her iki parçada da koru
+                        if (isChecksumPart) {
+                            checksumPart += char;
+                        } else {
+                            hashPart += char;
+                        }
+                        continue;
+                    }
+
+                    // Harf sayısını artır
+                    charCount++;
+                    
+                    // Checksum kısmı dolduysa, kalan metni hash kısmına ekle
+                    if (charCount > checksumLength) {
+                        isChecksumPart = false;
+                    }
+
+                    // Harfi uygun kısma ekle
+                    if (isChecksumPart) {
+                        checksumPart += char;
+                    } else {
+                        hashPart += char;
+                    }
+                }
+
+                return {
+                    checksumPart: checksumPart.trim(),
+                    hashPart: hashPart.trim()
+                };
+            }
+
+
+            fetch("sura.txt").then(r => r.text()).then(rawText => {
                 // Test: Şura Suresi’nin ilk birkaç ayeti
                 console.log(rawText)
                 const cleanedText = cleanArabicText(rawText);
-                
                 console.log("Temizlenmiş Metin:", cleanedText);
+
+                // Test: Şura Suresi’nin temizlenmiş metni
+                const { checksumPart, hashPart } = splitTextForHash(cleanedText, "sura");
+                console.log("Checksum Kısmı:", checksumPart); // "حم عسق" (5 harf: Kaf-Ha-Ya-Ayn-Sad)
+                console.log("Hash Kısmı:", hashPart);
             })
-
-
-            // Test: Şura Suresi’nin ilk 10 ayetinin ilk kelimeleri
-            const words = [
-                "عسق", // 230
-                "كَذَٰلِكَ", // 771
-                "لَهُ", // 36
-                "مَا", // 41
-                "وَمَا", // 47
-                "لَيْسَ", // 101
-                "كَمِثْلِهِ", // 121
-                "وَهُوَ", // 12
-                "ٱلَّذِى", // 741
-                "يَعْلَمُ" // 121
-            ];
-
-            // Her kelimeyi döngüyle işle ve Ebced değerlerini hesapla
-            const ebcedValues = words.map(word => calculateEbcedValue(word));
-            console.log("Ebced Değerleri:", ebcedValues);
-
-            // Ağırlıklandırma: Her kelimeyi ayet sırasına göre çarp
-            let weightedSum = 0;
-            for (let i = 0; i < ebcedValues.length; i++) {
-                weightedSum += ebcedValues[i] * (i + 1);
-            }
-            console.log("Ağırlıklandırılmış Toplam:", weightedSum);
-
-            // Hedef değer: 278
-            const target = 278;
-            const result = weightedSum % target;
-            console.log("Sonuç (mod 278):", result);
-
-            // Katsayı ile dönüşüm
-            const coefficient = 0.0238; // Daha önce denediğimiz katsayı
-            const adjustedResult = weightedSum * coefficient;
-            console.log("Dönüştürülmüş Sonuç:", adjustedResult);
         </script>
     </body>
 </html>
