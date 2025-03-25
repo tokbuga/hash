@@ -1,11 +1,69 @@
 <html>
     <head>
-        
+
     </head>
     <body>
         "nefetari 💞 özgür"
         <script>
             console.log("nefetari 💞 özgür")
+            
+            // Ebced değerleri için bir harita
+            const ebcedMap = {
+                'ا': 1, 'ب': 2, 'ج': 3, 'د': 4, 'ه': 5, 'و': 6, 'ز': 7, 'ح': 8, 'ط': 9,
+                'ي': 10, 'ك': 20, 'ل': 30, 'م': 40, 'ن': 50, 'س': 60, 'ع': 70, 'ف': 80, 'ص': 90,
+                'ق': 100, 'ر': 200, 'ش': 300, 'ت': 400, 'ث': 500, 'خ': 600, 'ذ': 700, 'ض': 800,
+                'ظ': 900, 'غ': 1000
+            };
+
+            // Metni (harf veya kelime) Ebced değerine dönüştüren fonksiyon
+            function calculateEbcedValue(text) {
+                let total = 0;
+                
+                // Metni harf harf döngüyle işle
+                for (let i = 0; i < text.length; i++) {
+                    const char = text[i];
+                    // Harf Ebced haritasına varsa değerini al, yoksa 0
+                    const value = ebcedMap[char] || 0;
+                    total += value;
+                }
+                
+                return total;
+            }
+
+            // Test: Şura Suresi’nin ilk 10 ayetinin ilk kelimeleri
+            const words = [
+                "عسق", // 230
+                "كَذَٰلِكَ", // 771
+                "لَهُ", // 36
+                "مَا", // 41
+                "وَمَا", // 47
+                "لَيْسَ", // 101
+                "كَمِثْلِهِ", // 121
+                "وَهُوَ", // 12
+                "ٱلَّذِى", // 741
+                "يَعْلَمُ" // 121
+            ];
+
+            // Her kelimeyi döngüyle işle ve Ebced değerlerini hesapla
+            const ebcedValues = words.map(word => calculateEbcedValue(word));
+            console.log("Ebced Değerleri:", ebcedValues);
+
+            // Ağırlıklandırma: Her kelimeyi ayet sırasına göre çarp
+            let weightedSum = 0;
+            for (let i = 0; i < ebcedValues.length; i++) {
+                weightedSum += ebcedValues[i] * (i + 1);
+            }
+            console.log("Ağırlıklandırılmış Toplam:", weightedSum);
+
+            // Hedef değer: 278
+            const target = 278;
+            const result = weightedSum % target;
+            console.log("Sonuç (mod 278):", result);
+
+            // Katsayı ile dönüşüm
+            const coefficient = 0.0238; // Daha önce denediğimiz katsayı
+            const adjustedResult = weightedSum * coefficient;
+            console.log("Dönüştürülmüş Sonuç:", adjustedResult);
         </script>
     </body>
 </html>
