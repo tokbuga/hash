@@ -28,7 +28,7 @@
                 "Secde": 3,     // Elif-Lam-Mim
                 "Yâ-Sîn": 2,    // Ya-Sin
                 "Sâd": 1,       // Sad
-                "fussilet": 3,  // Ha-Mim
+                "fussilet": 2,  // Ha-Mim
                 "sura": 5,      // Kaf-Ha-Ya-Ayn-Sad
                 "Zuhruf": 2,    // Ha-Mim
                 "duhan": 2,     // Ha-Mim
@@ -90,6 +90,7 @@
                 if (cleanedText.startsWith(bismillah)) {
                     bismillahPart = cleanedText.substring(0, bismillah.length);
                     textToProcess = cleanedText.substring(bismillah.length).trim();
+                    throw 1;
                 }
 
                 // Checksum harf sayısını al
