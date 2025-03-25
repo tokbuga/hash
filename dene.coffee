@@ -46,7 +46,7 @@ chars = {
     '1610': { char: 'ي', s1: 10, s2: 28, s3: 27, s4: 0, s5: 1 }
 }
 
-console.table chars
+#console.table chars
 
 String.prototype.toNumber   = (k) ->
     metin = @toString().trim()
@@ -60,6 +60,23 @@ Number.prototype.m = (N) ->
     (this%N)
 
 for { name: sure_ad, aya: ayetler, index: sure_no, harf }, sure_indeks in kuran
+    continue if !["36"].includes sure_no
+
+    log ayetler[0].text
+
+    text = []
+    for ayet, i in ayetler
+        continue unless i
+        text.push ayet.text
+
+    text = text.join(" ").replace /\s+/g, ""
+
+
+
+    yaz.writeFileSync "c36.txt", ayetler[0].text.split('').map((l) -> l.toNumber(2)).join ","
+    yaz.writeFileSync "36.txt", text.split('').map((l) -> l.toNumber(2)).join ","
+    log text
+    continue
 
     s1a = 0; s1c = 0 
     s2a = 0; s2c = 0 
@@ -101,8 +118,8 @@ for { name: sure_ad, aya: ayetler, index: sure_no, harf }, sure_indeks in kuran
 
 
 
-console.table ISLEM: "Div and mod for key aganist to sura / spaces removed"
-console.table kuran
+#console.table ISLEM: "Div and mod for key aganist to sura / spaces removed"
+#console.table kuran
 
 
 
@@ -124,5 +141,5 @@ console.table kuran
 
 
 
-yaz.writeFileSync "denendi/#{Date.now()}.json", JSON.stringify kuran, null, "\t"
-yaz.writeFileSync "deneme.txt", parseFloat(yaz.readFileSync("deneme.txt"))+1
+#yaz.writeFileSync "denendi/#{Date.now()}.json", JSON.stringify kuran, null, "\t"
+#yaz.writeFileSync "deneme.txt", parseFloat(yaz.readFileSync("deneme.txt"))+1
