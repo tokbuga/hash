@@ -135,6 +135,8 @@
                 const { checksumPart, hashPart } = splitTextForHash(cleanedText, "sura");
                 console.log("Checksum Kısmı:", checksumPart); // "حم عسق" (5 harf: Kaf-Ha-Ya-Ayn-Sad)
                 console.log("Hash Kısmı:", hashPart);
+                console.warn("Checksum Kısmı Ebced Değeri:", calculateEbcedValue(checksumPart)); // "حم عسق" (5 harf: Kaf-Ha-Ya-Ayn-Sad)
+                console.warn("Hash Kısmı Ebced Değeri:", calculateEbcedValue(hashPart));
             })
         </script>
     </body>
