@@ -31,7 +31,7 @@
                 "fussilet": 3,  // Ha-Mim
                 "sura": 5,      // Kaf-Ha-Ya-Ayn-Sad
                 "Zuhruf": 2,    // Ha-Mim
-                "Duhân": 2,     // Ha-Mim
+                "duhan": 2,     // Ha-Mim
                 "casiye": 2,    // Ha-Mim
                 "Ahkâf": 2,     // Ha-Mim
                 "Kaf": 1,       // Kaf
@@ -178,6 +178,22 @@
                 console.warn("Checksum Kısmı Ebced Değeri:", calculateEbcedValue(checksumPart)); // "حم عسق" (5 harf: Kaf-Ha-Ya-Ayn-Sad)
                 console.warn("Hash Kısmı Ebced Değeri:", calculateEbcedValue(hashPart));
                 console.groupEnd("fussilet")
+            })
+
+            fetch("duhan.txt").then(r => r.text()).then(rawText => {
+                console.group("duhan")
+                console.log({rawText})                
+                const cleanedText = cleanArabicText(rawText);
+                console.log("Temizlenmiş Metin:", {cleanedText});
+
+                const { bismillahPart, checksumPart, hashPart } = splitTextForHash(cleanedText, "duhan");
+
+                console.log("Bismillah Kısmı:", bismillahPart);
+                console.log("Checksum Kısmı:", checksumPart);
+                console.log("Hash Kısmı:", {hashPart});
+                console.warn("Checksum Kısmı Ebced Değeri:", calculateEbcedValue(checksumPart)); // "حم عسق" (5 harf: Kaf-Ha-Ya-Ayn-Sad)
+                console.warn("Hash Kısmı Ebced Değeri:", calculateEbcedValue(hashPart));
+                console.groupEnd("duhan")
             })
 
         </script>
