@@ -51,6 +51,7 @@
                     .replace(/[\u064B-\u065F\u0610-\u061A\u06D6-\u06DC\u06DF-\u06E8\u06EA-\u06EF]/g, '') // Harekeleri kaldır
                     .replace(/[\u200B-\u200F\u202A-\u202E]/g, '') // Görünmez karakterleri kaldır
                     .replace(/[^\u0621-\u063A\u0641-\u064A\s]/g, '') // Sadece Arapça harfler ve boşluklar kalsın
+                    .replace(/\ء/g, '') // Sadece Arapça harfler ve boşluklar kalsın
                     .replace(/\s+/g, ' ') // Fazla boşlukları tek boşluğa indir
                     .trim();
             }
@@ -126,15 +127,49 @@
                 "muzzemmil": 2
             };
 
+
+            const suraIndexes = {
+                "bakara": 2,
+                "al-i_imran": 3,
+                "araf": 7,
+                "yunus": 10,
+                "hud": 11,
+                "yusuf": 12,
+                "rad": 13,
+                "ibrahim": 14,
+                "hicr": 15,
+                "meryem": 19,
+                "ta-ha": 20,
+                "suara": 26,
+                "neml": 27,
+                "kasas": 28,
+                "ankebut": 29,
+                "rum": 30,
+                "lokman": 31,
+                "secde": 32,
+                "sad": 38,
+                "fussilet": 41,
+                "sura": 42,
+                "zuhruf": 43,
+                "duhan": 44,
+                "casiye": 45,
+                "ahkaf": 46,
+                "kaf": 50,
+                "kalem": 68
+            };
+
             // 6 sûreyi işleyen fonksiyon
             async function processSuras() {
                 const suraNames = ["sura", "fussilet", "casiye", "duhan", "ahkaf", "mumin"];
                 const results = [];
 
+
+
+
                 for (const suraName of suraNames) {
                     try {
                         // 1. Fetch ile metni al
-                        const response = await fetch(`https://tokbuga.github.io/hash/${suraName}.txt`);
+                        const response = await fetch(`${suraName}.txt`);
                         if (!response.ok) throw new Error(`Failed to fetch ${suraName}.txt`);
 
                         // 2. Text'e dönüştür
